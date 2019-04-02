@@ -1,0 +1,61 @@
+﻿<Page x:Class="DetalApp.pages.Reports"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:DetalApp.pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="700" d:DesignWidth="1000"
+      Title="Reports">
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <StackPanel  Orientation="Horizontal">
+            <StackPanel Name="nav" Orientation="Horizontal">
+                <Button Tag="1" Click="GetReport"  Padding="10" BorderThickness="0" Background="#FF11A225">Отчет 1</Button>
+                <Button Tag="2" Click="GetReport" Padding="10" BorderThickness="0" Background="#FF1D83C9">Отчет 2</Button>
+                <Button Tag="3" Click="GetReport" Padding="10" BorderThickness="0" Background="#FF1D83C9">Отчет 3</Button>
+                <Button Tag="4" Click="GetReport" Padding="10" BorderThickness="0" Background="#FF1D83C9">Отчет 4</Button>
+                <Button Tag="5" Click="GetReport"  Padding="10" BorderThickness="0" Background="#FF1D83C9">Отчет 5</Button>
+            </StackPanel>
+            
+            <Label FontSize="18" Margin="10,0" VerticalAlignment="Center">|</Label>
+            <Button Padding="10" BorderThickness="0" Background="#FF179E30" Click="exportExcel">Экспорт в excel</Button>
+        </StackPanel>
+        
+        <DataGrid Name="dgReport" Grid.Row="1"  IsReadOnly="True" Background="White" HeadersVisibility="Column" SelectionMode="Single" BorderThickness="1" BorderBrush="Black">
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="FontSize" Value="16"></Setter>
+                    <Setter Property="Background" Value="White"></Setter>
+                    <Setter Property="BorderBrush" Value="Black"></Setter>
+                    <Setter Property="BorderThickness" Value="0.5, 1"></Setter>
+                    <Setter Property="Padding" Value="5"></Setter>
+                    <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+                    <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+            <DataGrid.CellStyle>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Setter Property="Padding" Value="5"></Setter>
+                </Style>
+            </DataGrid.CellStyle>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Click="deleteThis" Tag="{Binding SelectedIndex, ElementName=dgReport}">Удалить</Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        
+        <Button Grid.Row="2" Click="BackBtn">Вернуться назад</Button>
+    </Grid>
+</Page>

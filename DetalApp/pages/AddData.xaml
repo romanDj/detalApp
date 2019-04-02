@@ -1,0 +1,152 @@
+﻿<Page x:Class="DetalApp.pages.AddData"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:DetalApp.pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="700" d:DesignWidth="1000"
+      Title="AddData">
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+        </Grid.RowDefinitions>
+             <TabControl SelectionChanged="TabControl_SelectionChanged"  >
+            <TabItem x:Name="smartphonesTab">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="3">Тип деталей</TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+                <TabItem.Content>
+
+
+                    <StackPanel Name="tip" Width="300" >
+                            <Label>Название:</Label>
+                            <TextBox Text="{Binding Path=NameTD, Mode=TwoWay}" Padding="6" Margin="10"></TextBox>
+                            <Button Margin="10" Padding="6" Click="addTip">Добавить</Button>
+                        </StackPanel>
+                  
+                </TabItem.Content>
+            </TabItem>
+            <TabItem x:Name="tabletsTab">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Label>Мастера</Label>
+                    </StackPanel>
+                </TabItem.Header>
+                <TabItem.Content>
+                    <StackPanel  Width="300" Name="masterForm">
+                        <Label>Фамилия:</Label>
+                        <TextBox Text="{Binding Path=F_Master, Mode=TwoWay}" Padding="6" Margin="10"></TextBox>
+                        <Label>Имя:</Label>
+                        <TextBox Text="{Binding Path=I_Master, Mode=TwoWay}" Padding="6" Margin="10"></TextBox>
+                        <Label>Отчество:</Label>
+                        <TextBox Text="{Binding Path=O_Master, Mode=TwoWay}" Padding="6" Margin="10"></TextBox>
+                        <Label>Дата приема на работу:</Label>
+                        <DatePicker SelectedDate="{Binding Path=DataPriemaNaRabotu, Mode=TwoWay}" Margin="10" Padding="10"></DatePicker>
+                        <Label>Дата рождения:</Label>
+                        <DatePicker SelectedDate="{Binding Path=BDate, Mode=TwoWay}" Margin="10" Padding="10"></DatePicker>
+                        <Button Margin="10" Padding="6" Click="addMaster">Добавить</Button>
+                    </StackPanel>
+                </TabItem.Content>
+            </TabItem>
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Label>Детали</Label>
+                    </StackPanel>
+                </TabItem.Header>
+                <TabItem.Content>
+                    <StackPanel  Width="300" Name="detalForm">
+                        <Label>Название детали:</Label>
+                        <TextBox Text="{Binding Path=NameDetal, Mode=TwoWay}" Padding="6" Margin="10"></TextBox>
+                        <Label>Характеристики:</Label>
+                        <TextBox Text="{Binding Path=HarakteristiciDetali, Mode=TwoWay}" Padding="6" Margin="10"></TextBox>
+                        <Label>Время на изготовление(чч:мм):</Label>
+                        <TextBox Text="{Binding Path=VremyaNaIzgotovlenie, Mode=TwoWay}" Padding="6" Margin="10"></TextBox>
+                        <Label>Тип детали:</Label>
+                        <ComboBox Margin="10" SelectedValue="{Binding Path=ID_TD, Mode=TwoWay}" DisplayMemberPath="NameTD" SelectedValuePath="ID_TD" Name="cmbTip" Padding="10"></ComboBox>
+                        <Button Margin="10" Padding="6" Click="addDetal">Добавить</Button>
+                    </StackPanel>
+                </TabItem.Content>
+            </TabItem>
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Label>Работы</Label>
+                    </StackPanel>
+                </TabItem.Header>
+                <TabItem.Content>
+                    <StackPanel  Width="300" Name="rabotaForm">
+                        <Label>Мастер:</Label>
+                        <ComboBox Margin="10" Name="cmbMaster" SelectedValue="{Binding Path=ID_Master, Mode=TwoWay}" SelectedValuePath="ID_Master"  Padding="10">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding F_Master}"  Margin="2"/>
+                                        <TextBlock Text="{Binding I_Master}" Margin="2"/>
+                                        <TextBlock Text="{Binding O_Master}" Margin="2"/>
+                                        </StackPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+
+                        <Label>Деталь:</Label>
+                        <ComboBox Name="cmbDetal" Margin="10" SelectedValue="{Binding Path=ID_Detal, Mode=TwoWay}" DisplayMemberPath="NameDetal" SelectedValuePath="ID_Detal"  Padding="10"></ComboBox>
+                        
+                        <Label>Дата начала:</Label>
+                        <DatePicker SelectedDate="{Binding Path=DataNachalo, Mode=TwoWay}" Margin="10" Padding="10"></DatePicker>
+
+                        <Label>Дата конца:</Label>
+                        <DatePicker SelectedDate="{Binding Path=DataKonca, Mode=TwoWay}" Margin="10" Padding="10"></DatePicker>
+
+                        <Label>Время начала(чч:мм):</Label>
+                        <TextBox Text="{Binding Path=VremyaNachalo, Mode=TwoWay}" Padding="6" Margin="10"></TextBox>
+
+                        <Label>Время конца(чч:мм):</Label>
+                        <TextBox Text="{Binding Path=VremyaKonca, Mode=TwoWay}" Padding="6" Margin="10"></TextBox>
+
+                        <Button Margin="10" Padding="6" Click="addRabota">Добавить</Button>
+                    </StackPanel>
+                </TabItem.Content>
+            </TabItem>
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Label>Брак</Label>
+                    </StackPanel>
+                </TabItem.Header>
+                <TabItem.Content>
+                    <StackPanel  Width="300" Name="brakForm">
+                        <Label>Работа:</Label>
+                        <ComboBox Margin="10" Name="cmbRabota" SelectedValue="{Binding Path=ID_rabota, Mode=TwoWay}" SelectedValuePath="ID_rabota"  Padding="10">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding ID_rabota}"  Margin="2"/>
+                                        <TextBlock Text="{Binding NameDetal}" Margin="2"/>
+                                        <TextBlock Text="{Binding F_Master}" Margin="2"/>
+                                        <TextBlock Text="{Binding I_Master}" Margin="2"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+
+
+
+                        <Label>Причина:</Label>
+                        <TextBox Text="{Binding Path=Prichina, Mode=TwoWay}" Padding="6" Margin="10"></TextBox>
+
+                        <Button Margin="10" Padding="6" Click="addBrak">Добавить</Button>
+                    </StackPanel>
+                </TabItem.Content>
+            </TabItem>
+
+        </TabControl>
+      <Button Grid.Row="1" Click="BackBtn">Вернуться назад</Button>
+       
+    </Grid>
+</Page>

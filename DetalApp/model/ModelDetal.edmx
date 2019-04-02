@@ -1,0 +1,400 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище detalDbModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Brak">
+          <Key>
+            <PropertyRef Name="ID_Brak" />
+          </Key>
+          <Property Name="ID_Brak" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_rabota" Type="int" />
+          <Property Name="Prichina" Type="varchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="Detal">
+          <Key>
+            <PropertyRef Name="ID_Detal" />
+          </Key>
+          <Property Name="ID_Detal" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NameDetal" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="HarakteristiciDetali" Type="varchar" MaxLength="2000" Nullable="false" />
+          <Property Name="VremyaNaIzgotovlenie" Type="time" Precision="7" Nullable="false" />
+          <Property Name="ID_TD" Type="int" />
+        </EntityType>
+        <EntityType Name="Master">
+          <Key>
+            <PropertyRef Name="ID_Master" />
+          </Key>
+          <Property Name="ID_Master" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="F_Master" Type="varchar" MaxLength="200" />
+          <Property Name="I_Master" Type="varchar" MaxLength="200" />
+          <Property Name="O_Master" Type="varchar" MaxLength="200" />
+          <Property Name="DataPriemaNaRabotu" Type="date" />
+          <Property Name="BDate" Type="date" />
+        </EntityType>
+        <EntityType Name="Rabota">
+          <Key>
+            <PropertyRef Name="ID_rabota" />
+          </Key>
+          <Property Name="ID_rabota" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DataNachalo" Type="date" />
+          <Property Name="DataKonca" Type="date" />
+          <Property Name="VremyaNachalo" Type="time" Precision="7" />
+          <Property Name="VremyaKonca" Type="time" Precision="7" />
+          <Property Name="ID_Detal" Type="int" />
+          <Property Name="ID_Master" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="TipDetali">
+          <Key>
+            <PropertyRef Name="ID_TD" />
+          </Key>
+          <Property Name="ID_TD" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NameTD" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="login" Type="varchar" MaxLength="200" />
+          <Property Name="password" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <Association Name="FK_Brak_Rabota">
+          <End Role="Rabota" Type="Self.Rabota" Multiplicity="0..1" />
+          <End Role="Brak" Type="Self.Brak" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rabota">
+              <PropertyRef Name="ID_rabota" />
+            </Principal>
+            <Dependent Role="Brak">
+              <PropertyRef Name="ID_rabota" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Detal_TipDetali">
+          <End Role="TipDetali" Type="Self.TipDetali" Multiplicity="0..1" />
+          <End Role="Detal" Type="Self.Detal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipDetali">
+              <PropertyRef Name="ID_TD" />
+            </Principal>
+            <Dependent Role="Detal">
+              <PropertyRef Name="ID_TD" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rabota_Detal">
+          <End Role="Detal" Type="Self.Detal" Multiplicity="0..1" />
+          <End Role="Rabota" Type="Self.Rabota" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Detal">
+              <PropertyRef Name="ID_Detal" />
+            </Principal>
+            <Dependent Role="Rabota">
+              <PropertyRef Name="ID_Detal" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rabota_Master">
+          <End Role="Master" Type="Self.Master" Multiplicity="0..1" />
+          <End Role="Rabota" Type="Self.Rabota" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Master">
+              <PropertyRef Name="ID_Master" />
+            </Principal>
+            <Dependent Role="Rabota">
+              <PropertyRef Name="ID_Master" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище detalDbModelContainer">
+          <EntitySet Name="Brak" EntityType="Self.Brak" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Detal" EntityType="Self.Detal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Master" EntityType="Self.Master" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rabota" EntityType="Self.Rabota" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TipDetali" EntityType="Self.TipDetali" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user" EntityType="Self.user" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Brak_Rabota" Association="Self.FK_Brak_Rabota">
+            <End Role="Rabota" EntitySet="Rabota" />
+            <End Role="Brak" EntitySet="Brak" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Detal_TipDetali" Association="Self.FK_Detal_TipDetali">
+            <End Role="TipDetali" EntitySet="TipDetali" />
+            <End Role="Detal" EntitySet="Detal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rabota_Detal" Association="Self.FK_Rabota_Detal">
+            <End Role="Detal" EntitySet="Detal" />
+            <End Role="Rabota" EntitySet="Rabota" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rabota_Master" Association="Self.FK_Rabota_Master">
+            <End Role="Master" EntitySet="Master" />
+            <End Role="Rabota" EntitySet="Rabota" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="detalDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Brak">
+          <Key>
+            <PropertyRef Name="ID_Brak" />
+          </Key>
+          <Property Name="ID_Brak" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_rabota" Type="Int32" />
+          <Property Name="Prichina" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Rabota" Relationship="Self.FK_Brak_Rabota" FromRole="Brak" ToRole="Rabota" />
+        </EntityType>
+        <EntityType Name="Detal">
+          <Key>
+            <PropertyRef Name="ID_Detal" />
+          </Key>
+          <Property Name="ID_Detal" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NameDetal" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="HarakteristiciDetali" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="VremyaNaIzgotovlenie" Type="Time" Precision="7" Nullable="false" />
+          <Property Name="ID_TD" Type="Int32" />
+          <NavigationProperty Name="TipDetali" Relationship="Self.FK_Detal_TipDetali" FromRole="Detal" ToRole="TipDetali" />
+          <NavigationProperty Name="Rabota" Relationship="Self.FK_Rabota_Detal" FromRole="Detal" ToRole="Rabota" />
+        </EntityType>
+        <EntityType Name="Master">
+          <Key>
+            <PropertyRef Name="ID_Master" />
+          </Key>
+          <Property Name="ID_Master" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="F_Master" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="I_Master" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="O_Master" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="DataPriemaNaRabotu" Type="DateTime" Precision="0" />
+          <Property Name="BDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Rabota" Relationship="Self.FK_Rabota_Master" FromRole="Master" ToRole="Rabota" />
+        </EntityType>
+        <EntityType Name="Rabota">
+          <Key>
+            <PropertyRef Name="ID_rabota" />
+          </Key>
+          <Property Name="ID_rabota" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DataNachalo" Type="DateTime" Precision="0" />
+          <Property Name="DataKonca" Type="DateTime" Precision="0" />
+          <Property Name="VremyaNachalo" Type="Time" Precision="7" />
+          <Property Name="VremyaKonca" Type="Time" Precision="7" />
+          <Property Name="ID_Detal" Type="Int32" />
+          <Property Name="ID_Master" Type="Int32" />
+          <NavigationProperty Name="Brak" Relationship="Self.FK_Brak_Rabota" FromRole="Rabota" ToRole="Brak" />
+          <NavigationProperty Name="Detal" Relationship="Self.FK_Rabota_Detal" FromRole="Rabota" ToRole="Detal" />
+          <NavigationProperty Name="Master" Relationship="Self.FK_Rabota_Master" FromRole="Rabota" ToRole="Master" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="TipDetali">
+          <Key>
+            <PropertyRef Name="ID_TD" />
+          </Key>
+          <Property Name="ID_TD" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NameTD" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Detal" Relationship="Self.FK_Detal_TipDetali" FromRole="TipDetali" ToRole="Detal" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="login" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_Brak_Rabota">
+          <End Role="Rabota" Type="Self.Rabota" Multiplicity="0..1" />
+          <End Role="Brak" Type="Self.Brak" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rabota">
+              <PropertyRef Name="ID_rabota" />
+            </Principal>
+            <Dependent Role="Brak">
+              <PropertyRef Name="ID_rabota" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Detal_TipDetali">
+          <End Role="TipDetali" Type="Self.TipDetali" Multiplicity="0..1" />
+          <End Role="Detal" Type="Self.Detal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipDetali">
+              <PropertyRef Name="ID_TD" />
+            </Principal>
+            <Dependent Role="Detal">
+              <PropertyRef Name="ID_TD" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rabota_Detal">
+          <End Role="Detal" Type="Self.Detal" Multiplicity="0..1" />
+          <End Role="Rabota" Type="Self.Rabota" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Detal">
+              <PropertyRef Name="ID_Detal" />
+            </Principal>
+            <Dependent Role="Rabota">
+              <PropertyRef Name="ID_Detal" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rabota_Master">
+          <End Role="Master" Type="Self.Master" Multiplicity="0..1" />
+          <End Role="Rabota" Type="Self.Rabota" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Master">
+              <PropertyRef Name="ID_Master" />
+            </Principal>
+            <Dependent Role="Rabota">
+              <PropertyRef Name="ID_Master" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="detalDbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Brak" EntityType="Self.Brak" />
+          <EntitySet Name="Detal" EntityType="Self.Detal" />
+          <EntitySet Name="Master" EntityType="Self.Master" />
+          <EntitySet Name="Rabota" EntityType="Self.Rabota" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="TipDetali" EntityType="Self.TipDetali" />
+          <EntitySet Name="user" EntityType="Self.user" />
+          <AssociationSet Name="FK_Brak_Rabota" Association="Self.FK_Brak_Rabota">
+            <End Role="Rabota" EntitySet="Rabota" />
+            <End Role="Brak" EntitySet="Brak" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Detal_TipDetali" Association="Self.FK_Detal_TipDetali">
+            <End Role="TipDetali" EntitySet="TipDetali" />
+            <End Role="Detal" EntitySet="Detal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rabota_Detal" Association="Self.FK_Rabota_Detal">
+            <End Role="Detal" EntitySet="Detal" />
+            <End Role="Rabota" EntitySet="Rabota" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rabota_Master" Association="Self.FK_Rabota_Master">
+            <End Role="Master" EntitySet="Master" />
+            <End Role="Rabota" EntitySet="Rabota" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище detalDbModelContainer" CdmEntityContainer="detalDbEntities">
+          <EntitySetMapping Name="Brak">
+            <EntityTypeMapping TypeName="detalDbModel.Brak">
+              <MappingFragment StoreEntitySet="Brak">
+                <ScalarProperty Name="ID_Brak" ColumnName="ID_Brak" />
+                <ScalarProperty Name="ID_rabota" ColumnName="ID_rabota" />
+                <ScalarProperty Name="Prichina" ColumnName="Prichina" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Detal">
+            <EntityTypeMapping TypeName="detalDbModel.Detal">
+              <MappingFragment StoreEntitySet="Detal">
+                <ScalarProperty Name="ID_Detal" ColumnName="ID_Detal" />
+                <ScalarProperty Name="NameDetal" ColumnName="NameDetal" />
+                <ScalarProperty Name="HarakteristiciDetali" ColumnName="HarakteristiciDetali" />
+                <ScalarProperty Name="VremyaNaIzgotovlenie" ColumnName="VremyaNaIzgotovlenie" />
+                <ScalarProperty Name="ID_TD" ColumnName="ID_TD" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Master">
+            <EntityTypeMapping TypeName="detalDbModel.Master">
+              <MappingFragment StoreEntitySet="Master">
+                <ScalarProperty Name="ID_Master" ColumnName="ID_Master" />
+                <ScalarProperty Name="F_Master" ColumnName="F_Master" />
+                <ScalarProperty Name="I_Master" ColumnName="I_Master" />
+                <ScalarProperty Name="O_Master" ColumnName="O_Master" />
+                <ScalarProperty Name="DataPriemaNaRabotu" ColumnName="DataPriemaNaRabotu" />
+                <ScalarProperty Name="BDate" ColumnName="BDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rabota">
+            <EntityTypeMapping TypeName="detalDbModel.Rabota">
+              <MappingFragment StoreEntitySet="Rabota">
+                <ScalarProperty Name="ID_rabota" ColumnName="ID_rabota" />
+                <ScalarProperty Name="DataNachalo" ColumnName="DataNachalo" />
+                <ScalarProperty Name="DataKonca" ColumnName="DataKonca" />
+                <ScalarProperty Name="VremyaNachalo" ColumnName="VremyaNachalo" />
+                <ScalarProperty Name="VremyaKonca" ColumnName="VremyaKonca" />
+                <ScalarProperty Name="ID_Detal" ColumnName="ID_Detal" />
+                <ScalarProperty Name="ID_Master" ColumnName="ID_Master" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="detalDbModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TipDetali">
+            <EntityTypeMapping TypeName="detalDbModel.TipDetali">
+              <MappingFragment StoreEntitySet="TipDetali">
+                <ScalarProperty Name="ID_TD" ColumnName="ID_TD" />
+                <ScalarProperty Name="NameTD" ColumnName="NameTD" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user">
+            <EntityTypeMapping TypeName="detalDbModel.user">
+              <MappingFragment StoreEntitySet="user">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="password" ColumnName="password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

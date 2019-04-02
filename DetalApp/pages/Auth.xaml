@@ -1,0 +1,21 @@
+﻿<Page x:Class="DetalApp.pages.Auth"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:DetalApp.pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="700" d:DesignWidth="1000"
+      Title="Auth">
+
+    <Grid Background="White">
+        <StackPanel Width="300" Name="loginForm">
+            <Label HorizontalAlignment="Center" FontSize="18">Авторизация</Label>
+            <Label>Логин:</Label>
+            <TextBox Padding="5"  Name="frmLogin" Margin="0,5"></TextBox>
+            <Label>Пароль:</Label>
+            <PasswordBox PasswordChar="*" Name="frmPassword" Padding="5"  Margin="0,5"></PasswordBox>
+            <Button Padding="5" Margin="0,10" Click="authorization">Войти</Button>
+        </StackPanel>
+    </Grid>
+</Page>
