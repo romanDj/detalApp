@@ -23,6 +23,14 @@ namespace DetalApp.pages
         public Menu()
         {
             InitializeComponent();
+            Loaded += Menu_Loaded;
+        }
+
+        private void Menu_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (controller.Location.userGlobal.role != "a") {
+                report_btn.Visibility = Visibility.Hidden;
+            }
         }
 
         //страница с добавлением

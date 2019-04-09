@@ -88,6 +88,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="controller\Location.cs" />
+    <Compile Include="model\Actions.cs">
+      <DependentUpon>ModelDetal.tt</DependentUpon>
+    </Compile>
     <Compile Include="model\Brak.cs">
       <DependentUpon>ModelDetal.tt</DependentUpon>
     </Compile>

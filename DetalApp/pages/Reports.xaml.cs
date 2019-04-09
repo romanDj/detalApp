@@ -37,12 +37,15 @@ namespace DetalApp.pages
 
         private void BackBtn(object sender, RoutedEventArgs e)
         {
+            controller.Location.tackingAction();
             controller.Location._main.getFrame().GoBack();
         }
 
         //получить отчет
         private void GetReport(object sender, RoutedEventArgs e)
         {
+            controller.Location.tackingAction();
+            controller.Location.protocolAction("Получение отчетов");
 
             //визуально определить действующий отчет
             Button btn = (sender as Button) as Button;
@@ -64,11 +67,11 @@ namespace DetalApp.pages
                 SqlCommand cmd = null;
 
                 switch (btn.Tag.ToString()) {
-                    case "1": cmd = new SqlCommand("SELECT ID_Master as id, F_Master as 'Фамилия', I_Master as 'Имя', O_Master as 'Отчество', FORMAT(DataPriemaNaRabotu, 'yyyy.MM.dd') as 'Дата приема на рарботу', FORMAT(BDate, 'yyyy.MM.dd') as 'Дата рождения' FROM Master WHERE DATEDIFF(year, BDate, GETDATE()) > 20", conn);  break;
-                    case "2": cmd = new SqlCommand("SELECT * FROM Master m WHERE m.F_Master IN(SELECT m.F_Master  FROM Master m join Rabota r on m.ID_Master = r.ID_Master join Detal d on r.ID_Detal = d.ID_Detal WHERE  DATEDIFF(MINUTE, CAST(r.DataNachalo as datetime) + CAST(r.VremyaNachalo as datetime), CAST(r.DataKonca as datetime) + CAST(r.VremyaKonca as datetime)) > DATEDIFF(minute, '', d.VremyaNaIzgotovlenie)) ", conn);  break;
-                    case "3": cmd = new SqlCommand("SELECT TOP(3) COUNT(t.NameTD) as col, t.NameTD as 'Тип детали'   FROM Rabota r join Brak b on r.ID_rabota = b.ID_rabota join Detal d on r.ID_Detal= d.ID_Detal join TipDetali t on t.ID_TD = d.ID_TD GROUP BY t.NameTD Order BY col DESC", conn);  break;
-                    case "4": cmd = new SqlCommand("", conn);  break;
-                    case "5": cmd = new SqlCommand("SELECT * FROM Rabota r join Detal d on r.ID_Detal = d.ID_Detal left join Brak b on r.ID_rabota = b.ID_rabota WHERE  b.ID_rabota is null AND r.DataNachalo between '2019-01-04' and '2019-02-02'", conn);  break;
+                    case "1": cmd = new SqlCommand("SELECT ID_Master as '#', F_Master as 'Фамилия', I_Master as 'Имя', O_Master as 'Отчество', FORMAT(DataPriemaNaRabotu, 'dd.MM.yyyy') as 'Дата приема на рарботу', FORMAT(BDate, 'dd.MM.yyyy') as 'Дата рождения' FROM Master WHERE DATEDIFF(year, BDate, GETDATE()) > 20", conn);  break;
+                    case "2": cmd = new SqlCommand("SELECT ID_Master AS [#], F_Master AS Фамилия, I_Master AS Имя, O_Master AS Отчетсво FROM Master AS m WHERE (F_Master IN (SELECT m.F_Master FROM            Master AS m INNER JOIN Rabota AS r ON m.ID_Master = r.ID_Master INNER JOIN Detal AS d ON r.ID_Detal = d.ID_Detal AND DATEDIFF(MINUTE, CAST(r.DataNachalo AS datetime) + CAST(r.VremyaNachalo AS datetime), CAST(r.DataKonca AS datetime) + CAST(r.VremyaKonca AS datetime)) > DATEDIFF(minute, '', d.VremyaNaIzgotovlenie)))", conn);  break;
+                    case "3": cmd = new SqlCommand("SELECT TOP (3) t.NameTD AS 'Тип детали', COUNT(t.NameTD) AS [Количество попаданий в брак]  FROM Rabota AS r INNER JOIN Brak AS b ON r.ID_rabota = b.ID_rabota INNER JOIN Detal AS d ON r.ID_Detal = d.ID_Detal INNER JOIN TipDetali AS t ON t.ID_TD = d.ID_TD GROUP BY t.NameTD ORDER BY[Количество попаданий в брак] DESC", conn);  break;
+                    case "4": cmd = new SqlCommand("SELECT SUM(Detal.Price) AS [Сумма потерянных денег (руб.)] FROM Brak INNER JOIN Rabota ON Brak.ID_rabota = Rabota.ID_rabota INNER JOIN Detal ON Rabota.ID_Detal = Detal.ID_Detal", conn);  break;
+                    case "5": cmd = new SqlCommand("SELECT FORMAT(r.DataNachalo, 'dd.MM.yyyy') AS [Дата начала работы], d.ID_Detal AS [# детали], d.NameDetal AS [Название детали], r.ID_rabota AS [# работы] FROM            Rabota AS r INNER JOIN Detal AS d ON r.ID_Detal = d.ID_Detal LEFT OUTER JOIN Brak AS b ON r.ID_rabota = b.ID_rabota WHERE(b.ID_rabota IS NULL) AND(r.DataNachalo BETWEEN '2019-01-04' and '2019-02-02')", conn);  break;
                 }
 
 
@@ -86,6 +89,7 @@ namespace DetalApp.pages
         //экспорт в excel
         private void exportExcel(object sender, RoutedEventArgs e)
         {
+            controller.Location.tackingAction();
             Microsoft.Office.Interop.Excel.Application excelApp = new Microsoft.Office.Interop.Excel.Application();
             Microsoft.Office.Interop.Excel.Workbook wb = excelApp.Application.Workbooks.Add(Type.Missing);
             Microsoft.Office.Interop.Excel.Worksheet ws = (Microsoft.Office.Interop.Excel.Worksheet)wb.Worksheets["Лист1"];
@@ -94,6 +98,17 @@ namespace DetalApp.pages
             int y = 1;
 
             foreach (DataRow r in dt.Rows) {
+
+                if (x == 1)
+                {
+                    foreach (DataColumn c in dt.Columns)
+                    {
+                        ws.Cells[x, y] = c.ColumnName;
+                        y++;
+                    }
+                    y = 1;
+                    x++;
+                }
                
                 foreach (DataColumn c in dt.Columns) {
                     ws.Cells[x, y] = r[c].ToString();
@@ -102,7 +117,6 @@ namespace DetalApp.pages
 
                 y = 1;
                 x++;
-
             }
 
             wb.Close();

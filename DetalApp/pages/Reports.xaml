@@ -45,15 +45,7 @@
                     <Setter Property="Padding" Value="5"></Setter>
                 </Style>
             </DataGrid.CellStyle>
-            <DataGrid.Columns>
-                <DataGridTemplateColumn>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Click="deleteThis" Tag="{Binding SelectedIndex, ElementName=dgReport}">Удалить</Button>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
+           
         </DataGrid>
         
         <Button Grid.Row="2" Click="BackBtn">Вернуться назад</Button>

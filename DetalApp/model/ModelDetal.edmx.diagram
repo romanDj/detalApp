@@ -16,6 +16,8 @@
         <AssociationConnector Association="detalDbModel.FK_Detal_TipDetali" ManuallyRouted="false" />
         <AssociationConnector Association="detalDbModel.FK_Rabota_Detal" ManuallyRouted="false" />
         <AssociationConnector Association="detalDbModel.FK_Rabota_Master" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="detalDbModel.Actions" Width="1.5" PointX="10" PointY="4.75" />
+        <AssociationConnector Association="detalDbModel.FK_Actions_user" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:DetalApp.pages"
       mc:Ignorable="d" 
-      d:DesignHeight="700" d:DesignWidth="1000"
+      d:DesignHeight="900" d:DesignWidth="1000"
       Title="AddData">
 
     <Grid Background="White">
@@ -13,8 +13,16 @@
             <RowDefinition></RowDefinition>
             <RowDefinition Height="40"></RowDefinition>
         </Grid.RowDefinitions>
-             <TabControl SelectionChanged="TabControl_SelectionChanged"  >
-            <TabItem x:Name="smartphonesTab">
+        <TabControl>
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock>Добавление</TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+                <TabItem.Content>
+                    <TabControl SelectionChanged="TabControl_SelectionChanged"  >
+              <TabItem x:Name="smartphonesTab">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Margin="3">Тип деталей</TextBlock>
@@ -69,6 +77,8 @@
                         <TextBox Text="{Binding Path=VremyaNaIzgotovlenie, Mode=TwoWay}" Padding="6" Margin="10"></TextBox>
                         <Label>Тип детали:</Label>
                         <ComboBox Margin="10" SelectedValue="{Binding Path=ID_TD, Mode=TwoWay}" DisplayMemberPath="NameTD" SelectedValuePath="ID_TD" Name="cmbTip" Padding="10"></ComboBox>
+                        <Label>Стоимость (руб.):</Label>
+                        <TextBox Text="{Binding Path=Price, Mode=TwoWay}" Padding="6" Margin="10"></TextBox>
                         <Button Margin="10" Padding="6" Click="addDetal">Добавить</Button>
                     </StackPanel>
                 </TabItem.Content>
@@ -146,6 +156,76 @@
             </TabItem>
 
         </TabControl>
+                </TabItem.Content>
+            </TabItem>
+            <TabItem Name="see_data">
+                <TabItem.Header>
+                    <StackPanel>
+                        <TextBlock>Просмотр данных</TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+                <TabItem.Content>
+                    <TabControl>
+                        <TabItem>
+                            <TabItem.Header>
+                                <StackPanel>
+                                    <TextBlock>Брак</TextBlock>
+                                </StackPanel>
+                            </TabItem.Header>
+                            <TabItem.Content>
+                                <DataGrid Name="brak_list" IsReadOnly="True"></DataGrid>
+                            </TabItem.Content>
+                        </TabItem>
+                        
+                        <TabItem>
+                            <TabItem.Header>
+                                <StackPanel>
+                                    <TextBlock>Детали</TextBlock>
+                                </StackPanel>
+                            </TabItem.Header>
+                            <TabItem.Content>
+                                <DataGrid Name="detal_list" IsReadOnly="True"></DataGrid>
+                            </TabItem.Content>
+                        </TabItem>
+
+                        <TabItem>
+                            <TabItem.Header>
+                                <StackPanel>
+                                    <TextBlock>Мастера</TextBlock>
+                                </StackPanel>
+                            </TabItem.Header>
+                            <TabItem.Content>
+                                <DataGrid Name="master_list" IsReadOnly="True"></DataGrid>
+                            </TabItem.Content>
+                        </TabItem>
+
+                        <TabItem>
+                            <TabItem.Header>
+                                <StackPanel>
+                                    <TextBlock>Работы</TextBlock>
+                                </StackPanel>
+                            </TabItem.Header>
+                            <TabItem.Content>
+                                <DataGrid Name="rabota_list" IsReadOnly="True"></DataGrid>
+                            </TabItem.Content>
+                        </TabItem>
+
+                        <TabItem>
+                            <TabItem.Header>
+                                <StackPanel>
+                                    <TextBlock>Тип детали</TextBlock>
+                                </StackPanel>
+                            </TabItem.Header>
+                            <TabItem.Content>
+                                <DataGrid Name="tip_list" IsReadOnly="True"></DataGrid>
+                            </TabItem.Content>
+                        </TabItem>
+
+                    </TabControl>
+                </TabItem.Content>
+            </TabItem>
+        </TabControl>
+             
       <Button Grid.Row="1" Click="BackBtn">Вернуться назад</Button>
        
     </Grid>

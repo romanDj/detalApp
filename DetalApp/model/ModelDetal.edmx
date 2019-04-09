@@ -5,6 +5,15 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="Хранилище detalDbModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Actions">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="time" Type="datetime" />
+          <Property Name="action" Type="varchar" MaxLength="200" />
+          <Property Name="id_user" Type="int" />
+        </EntityType>
         <EntityType Name="Brak">
           <Key>
             <PropertyRef Name="ID_Brak" />
@@ -22,6 +31,7 @@
           <Property Name="HarakteristiciDetali" Type="varchar" MaxLength="2000" Nullable="false" />
           <Property Name="VremyaNaIzgotovlenie" Type="time" Precision="7" Nullable="false" />
           <Property Name="ID_TD" Type="int" />
+          <Property Name="Price" Type="float" />
         </EntityType>
         <EntityType Name="Master">
           <Key>
@@ -70,7 +80,20 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="login" Type="varchar" MaxLength="200" />
           <Property Name="password" Type="varchar" MaxLength="200" />
+          <Property Name="role" Type="varchar" MaxLength="10" />
         </EntityType>
+        <Association Name="FK_Actions_user">
+          <End Role="user" Type="Self.user" Multiplicity="0..1" />
+          <End Role="Actions" Type="Self.Actions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Actions">
+              <PropertyRef Name="id_user" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Brak_Rabota">
           <End Role="Rabota" Type="Self.Rabota" Multiplicity="0..1" />
           <End Role="Brak" Type="Self.Brak" Multiplicity="*" />
@@ -120,6 +143,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="Хранилище detalDbModelContainer">
+          <EntitySet Name="Actions" EntityType="Self.Actions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Brak" EntityType="Self.Brak" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Detal" EntityType="Self.Detal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Master" EntityType="Self.Master" Schema="dbo" store:Type="Tables" />
@@ -127,6 +151,10 @@
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipDetali" EntityType="Self.TipDetali" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user" EntityType="Self.user" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Actions_user" Association="Self.FK_Actions_user">
+            <End Role="user" EntitySet="user" />
+            <End Role="Actions" EntitySet="Actions" />
+          </AssociationSet>
           <AssociationSet Name="FK_Brak_Rabota" Association="Self.FK_Brak_Rabota">
             <End Role="Rabota" EntitySet="Rabota" />
             <End Role="Brak" EntitySet="Brak" />
@@ -168,6 +196,7 @@
           <Property Name="ID_TD" Type="Int32" />
           <NavigationProperty Name="TipDetali" Relationship="Self.FK_Detal_TipDetali" FromRole="Detal" ToRole="TipDetali" />
           <NavigationProperty Name="Rabota" Relationship="Self.FK_Rabota_Detal" FromRole="Detal" ToRole="Rabota" />
+          <Property Name="Price" Type="Double" />
         </EntityType>
         <EntityType Name="Master">
           <Key>
@@ -221,6 +250,8 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="login" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="password" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="role" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Actions" Relationship="detalDbModel.FK_Actions_user" FromRole="user" ToRole="Actions" />
         </EntityType>
         <Association Name="FK_Brak_Rabota">
           <End Role="Rabota" Type="Self.Rabota" Multiplicity="0..1" />
@@ -294,7 +325,34 @@
             <End Role="Master" EntitySet="Master" />
             <End Role="Rabota" EntitySet="Rabota" />
           </AssociationSet>
+          <EntitySet Name="Actions" EntityType="detalDbModel.Actions" />
+          <AssociationSet Name="FK_Actions_user" Association="detalDbModel.FK_Actions_user">
+            <End Role="user" EntitySet="user" />
+            <End Role="Actions" EntitySet="Actions" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Actions">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="time" Type="DateTime" Precision="3" />
+          <Property Name="action" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="id_user" Type="Int32" />
+          <NavigationProperty Name="user" Relationship="detalDbModel.FK_Actions_user" FromRole="Actions" ToRole="user" />
+        </EntityType>
+        <Association Name="FK_Actions_user">
+          <End Type="detalDbModel.user" Role="user" Multiplicity="0..1" />
+          <End Type="detalDbModel.Actions" Role="Actions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Actions">
+              <PropertyRef Name="id_user" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -313,6 +371,7 @@
           <EntitySetMapping Name="Detal">
             <EntityTypeMapping TypeName="detalDbModel.Detal">
               <MappingFragment StoreEntitySet="Detal">
+                <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="ID_Detal" ColumnName="ID_Detal" />
                 <ScalarProperty Name="NameDetal" ColumnName="NameDetal" />
                 <ScalarProperty Name="HarakteristiciDetali" ColumnName="HarakteristiciDetali" />
@@ -368,9 +427,20 @@
           <EntitySetMapping Name="user">
             <EntityTypeMapping TypeName="detalDbModel.user">
               <MappingFragment StoreEntitySet="user">
+                <ScalarProperty Name="role" ColumnName="role" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="login" ColumnName="login" />
                 <ScalarProperty Name="password" ColumnName="password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Actions">
+            <EntityTypeMapping TypeName="detalDbModel.Actions">
+              <MappingFragment StoreEntitySet="Actions">
+                <ScalarProperty Name="id_user" ColumnName="id_user" />
+                <ScalarProperty Name="action" ColumnName="action" />
+                <ScalarProperty Name="time" ColumnName="time" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

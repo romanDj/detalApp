@@ -12,20 +12,13 @@ namespace DetalApp.model
     using System;
     using System.Collections.Generic;
     
-    public partial class user
+    public partial class Actions
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public user()
-        {
-            this.Actions = new HashSet<Actions>();
-        }
-    
         public int id { get; set; }
-        public string login { get; set; }
-        public string password { get; set; }
-        public string role { get; set; }
+        public Nullable<System.DateTime> time { get; set; }
+        public string action { get; set; }
+        public Nullable<int> id_user { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Actions> Actions { get; set; }
+        public virtual user user { get; set; }
     }
 }

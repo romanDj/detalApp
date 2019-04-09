@@ -5,8 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DetalApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="1000">
+        Title="MainWindow" Height="900" Width="1000">
     <Grid>
-        <Frame NavigationUIVisibility="Hidden" Name="main_frame"></Frame>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <Button Name="out_btn" Click="out_click" Margin="10" Padding="5,5" HorizontalAlignment="Right">Выход на главную</Button>
+        <Frame Grid.Row="1" NavigationUIVisibility="Hidden" Name="main_frame"></Frame>
     </Grid>
 </Window>

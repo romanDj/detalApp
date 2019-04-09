@@ -21,8 +21,8 @@
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Row="1" Grid.Column="1">
             <Label FontSize="18" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Arial">Главное меню</Label>
-            <Button FontSize="16" FontFamily="Arial" Margin="10" Padding="10" Click="reportAction">Отчеты</Button>
             <Button FontSize="16" FontFamily="Arial" Margin="10" Padding="10" Click="addAction">Добавить данные</Button>
+            <Button FontSize="16" FontFamily="Arial" Margin="10" Padding="10" Name="report_btn" Click="reportAction">Отчеты</Button>
         </StackPanel>
     </Grid>
 </Page>

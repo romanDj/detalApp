@@ -11,8 +11,7 @@ namespace DetalApp.model
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Detal
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -20,14 +19,13 @@ namespace DetalApp.model
         {
             this.Rabota = new HashSet<Rabota>();
         }
-        
-       
+    
         public int ID_Detal { get; set; }
-
         public string NameDetal { get; set; }
         public string HarakteristiciDetali { get; set; }
         public System.TimeSpan VremyaNaIzgotovlenie { get; set; }
         public Nullable<int> ID_TD { get; set; }
+        public Nullable<double> Price { get; set; }
     
         public virtual TipDetali TipDetali { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
